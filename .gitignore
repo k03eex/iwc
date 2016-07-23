@@ -1,0 +1,4 @@
+/static_root
+db.sqlite3
+fixtures.json
+__pycache__

@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block content %}
+{% include 'sidebar.html' %}
+<div id="wrapper">
+    <section>
+      <h3>How it works</h3>
+      <p class="text">
+        The aim of the project is to collect data from microcontrollers (end nodes) which have several sensors such as ACI, Temperature,
+        Humidity, Air pressure, Light Level. The boards are connected to each other via Zigbee Wireless Technology and one of them is
+        connected to a base station. The base station acts as a bridge and coordinator between Wireless Sensor Network and Internet, which
+        has WiFi module. In addition, it is easier to communicatie with one gateway rather than with all end nodes. </br></br>The station collects
+        the data from nodes and converts it to suitable format before transfering it to a webserver through internet. The webserver has API
+        to communicate with the base station and 3rd party services. It is implemented with HTTP POST and GET messages, if the station wants
+        to send data it uses POST method, otherwise uses GET method. Moreover, to provide basic level of security webserver API requires authentication
+        and authorization before any negotiation. The webserver stores the data in PosgreSQL database and builds visual graphics from this data.
+        The topology of the project is given in below diagram.
+      </p>
+      <div id = "topology"><img src = "{% static 'images/general/topology.jpg' %}" alt="topology"></div>
+      <p class="text">
+      Google Map shows locations of each node. Click on the node to see the latest value of each sensor!
+      </p>
+      <div id="map"></div>
+    </section>
+  </div>
+{% endblock %}
+{% block extrajs %}
+  <script>
+  //source: http://www.aspsnippets.com/Articles/Google-Maps-API-V3-Add-multiple-markers-with-InfoWindow-to-Google-Map.aspx
+    var markers = [
+      {
+       "title": 'London Eye',
+       "lat": 51.503324,
+       "lng": -0.119543,
+       "description": ''
+      },
+      {
+       "title": 'Big Ben',
+       "lat": '51.5007292',
+       "lng": '-0.1246254',
+       "description": ''
+      },
+      {
+       "title": 'Madame Tussauds ',
+       "lat": '51.5228901',
+       "lng": '-0.1549671',
+       "description": ''
+      },
+      {
+       "title": 'The British Museum',
+       "lat": '51.5194133',
+       "lng": '-0.1269566',
+       "description": ''
+      }
+    ];
+    window.onload = function () {
+      LoadMap();
+    };
+    function LoadMap() {
+      var mapOptions = {
+        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+        zoom: 13,
+         //mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+         //Create and open InfoWindow.
+      var infoWindow = new google.maps.InfoWindow();
+
+      for (var i = 0; i < markers.length; i++) {
+        var data = markers[i];
+        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+        var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: data.title
+        });
+             //Attach click event to the marker.
+        (function (marker, data) {
+          google.maps.event.addListener(marker, "click", function () {
+               //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+          infoWindow.setContent(data.title);
+          infoWindow.open(map, marker);
+          });
+        })(marker, data);
+      };
+    };
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCReYIp7WAseEM_zZfqaL5WMgh8v1TAZho&callback=LoadMap">
+  </script>
+{% endblock %}

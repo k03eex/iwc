@@ -1,0 +1,61 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Analyzing soundscapes</title>
+    <!--RESET DEFAULT BROWSER CSS-->
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" >
+    <!--GOOOGLE FONTS LINK-->
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,700|Bree+Serif|Bitter' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" >
+  </head>
+  <body>
+    <div id="wrapall">
+      <header>
+          <h1>Internet and Wireless Computing</h1>
+          <h2>Analyzing soundscapes. Final Project</h2>
+        <nav id="menu">
+          <ul>
+
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'nodes:config' %}">Settings</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+    <footer>
+      <a href="http://www.york.ac.uk/"><img src="{% static 'images/uoy/uoy.png' %}" alt="university logo" class="university-logo"></a>
+      <a href="https://www.facebook.com/universityofyork"><img src="{% static 'images/social/facebook.png' %}" alt="facebook logo" class="social-icon"></a>
+      <a href="https://twitter.com/uniofyork"><img src="{% static 'images/social/twitter.png' %}" alt="twitter logo" class="social-icon"></a>
+      <a href="https://www.youtube.com/user/universityofyorkuk"><img src="{% static 'images/social/youtube.png' %}" alt="youtube logo" class="social-icon"></a>
+      <img src="{% static 'images/social/outlook.png' %}" alt="outlook logo" class="social-icon">
+      <!-- Мewaeт очень
+      <p>&copy; 2016 Nursultan Bolatbayev</p>
+      -->
+
+      <!--Wuth JS cant apply css
+      <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+      <script>
+        $(document).ready(function(){
+          $('.messages').delay(5000).fadeOut();
+        });
+      </script>
+    -->
+    </footer>
+    {% block extrajs %}{% endblock %}
+  </body>
+</html>

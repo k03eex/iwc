@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+
+{% block content %}
+  <div id="wrapper">
+    <section>
+      <h3>About</h3>
+      <p class="text">
+        This website is final project of MSc Internet and Wireless Computing students at University of York.
+        The project demonstrates principle of operations of Internet of Things, which are significantly developing
+        technology. It focuses on three different directions as Embedded Systems (sensors, microcontrollers), Communications and
+        Web tecnologies (Cloud Computing, Big Data and Web applications). Consequntly, each student in the group is responsible for each field.
+        </br></br>The system can help students, teachers and researchers from Environment and Biology departments to investigate biodiversity or any other hypothesis based
+        on the data. A supervisor as team leader helped students to solve issues and guided to be on the right way during the development of the project.
+      </p>
+      <h3>Our Team</h3>
+      <ul id="profile">
+        <li>
+          <img src ="{% static 'images/profile/david.jpg' %}" alt="David photo">
+          <p>Dr. David Chesmore</p>
+          <p>Supervisor</p>
+        </li>
+        <li>
+          <img src ="{% static 'images/profile/noorie.jpg' %}" alt="nursultan photo">
+          <p>Nursultan Bolatbayev</p>
+          <p>Development</p>
+        </li>
+        <li>
+          <img src ="{% static 'images/profile/ryan.jpg' %}" alt="ryan photo">
+          <p>Ryan Chang</p>
+          <p>Communications</p>
+        </li>
+        <li>
+          <img src ="{% static 'images/profile/qifan.jpg' %}" alt="qifan photo">
+          <p>Qifan Wu</p>
+          <p>Electronics</p>
+        </li>
+      </ul>
+      <p class="text">
+        All images used on this website are only for educational purposes. However, any other materials belong to University of York.
+        Any damages and attacks to the site are followed by the rules of law.
+        </br>If you have any queries or questions about the project, feel free to contact us!
+      </p>
+      <h3>Contacts</h3>
+      <ul class="contact-info">
+        <li class="email"><a href="mailto:nb927@york.ac.uk">nb927@york.ac.uk</a></li>
+        <li class="phone"><a href="tel:07949738392">0794 973 8392</a></li>
+        <li class="facebook"><a href="https://www.facebook.com/nursultan.bolatbayev">Nursultan Bolatbayev</a></li>
+      </ul>
+    </section>
+  </div>
+{% endblock %}
