@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
@@ -22,7 +23,7 @@ def node_list(request, node_pk):
 def node_detail(request, node_pk):
     node = "Node" + str(node_pk)
     return render(request, "nodes/node_detail.html", {'node': node, 'node_id': node_pk})
-
+@login_required
 def node_config(request):
     form = forms.NodeConfigForm
     if request.method == 'POST':
