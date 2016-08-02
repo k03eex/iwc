@@ -25,68 +25,86 @@
   </div>
 {% endblock %}
 {% block extrajs %}
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script>
   //source: http://www.aspsnippets.com/Articles/Google-Maps-API-V3-Add-multiple-markers-with-InfoWindow-to-Google-Map.aspx
-    var markers = [
-      {
-       "title": 'London Eye',
-       "lat": 51.503324,
-       "lng": -0.119543,
-       "description": ''
-      },
-      {
-       "title": 'Big Ben',
-       "lat": '51.5007292',
-       "lng": '-0.1246254',
-       "description": ''
-      },
-      {
-       "title": 'Madame Tussauds ',
-       "lat": '51.5228901',
-       "lng": '-0.1549671',
-       "description": ''
-      },
-      {
-       "title": 'The British Museum',
-       "lat": '51.5194133',
-       "lng": '-0.1269566',
-       "description": ''
-      }
-    ];
-    window.onload = function () {
-      LoadMap();
-    };
-    function LoadMap() {
-      var mapOptions = {
-        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
-        zoom: 13,
-         //mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    $.get("/nodes/gps_json/", function( data ) {
+      var markers = [
+        {
+         "title": 'Node1',
+         "lat": data[0].gps_latitude,
+         "lng": data[0].gps_longitude,
+         "values": data[0].values
+        },
+        {
+         "title": 'Node2',
+         "lat": data[1].gps_latitude,
+         "lng": data[1].gps_longitude,
+         "values": data[1].values
+        },
+        {
+         "title": 'Node3',
+         "lat": data[2].gps_latitude,
+         "lng": data[2].gps_longitude,
+         "values": data[2].values
+        },
+        {
+         "title": 'Node4',
+         "lat": data[3].gps_latitude,
+         "lng": data[3].gps_longitude,
+         "values": data[3].values
+        }
+      ];
+      window.onload = function LoadMap () {
+        var mapOptions = {
+          center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+          zoom: 13,
+           //mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
 
-         //Create and open InfoWindow.
-      var infoWindow = new google.maps.InfoWindow();
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-      for (var i = 0; i < markers.length; i++) {
-        var data = markers[i];
-        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: data.title
-        });
-             //Attach click event to the marker.
-        (function (marker, data) {
-          google.maps.event.addListener(marker, "click", function () {
-               //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-          infoWindow.setContent(data.title);
-          infoWindow.open(map, marker);
-          });
-        })(marker, data);
-      };
-    };
+           //Create and open InfoWindow.
+        var infoWindow = new google.maps.InfoWindow();
+
+        for (var i = 0; i < markers.length; i++) {
+          var data = markers[i];
+          var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+          var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: data.title
+          }); //end of Marker
+               //Attach click event to the marker.
+          (function (marker, data) {
+            google.maps.event.addListener(marker, "click", function () {
+                 //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+            infoWindow.setContent('<div id="map_infowindow">' +
+                          '<h3>' + data.title + '</h3>' +
+                          '<ul>' +
+                            '<li>' + '<span>' + "temp_max: " + '</span>' + data.values.temp_max + '</li>'+
+                            '<li>' + '<span>' + "temp_min: " + '</span>' + data.values.temp_min + '</li>'+
+                            '<li>' + '<span>' + "temp_avg: " + '</span>' + data.values.temp_avg.toFixed(2) + '</li>'+
+                          '</ul>' +
+                          '<ul>' +
+                            '<li>' + '<span>' + "humidity_max: " + '</span>' + data.values.humidity_max + '</li>'+
+                            '<li>' + '<span>' + "humidity_min: " + '</span>' + data.values.humidity_min + '</li>'+
+                            '<li>' + '<span>' + "humidity_avg: " + '</span>' + data.values.humidity_avg.toFixed(2) + '</li>'+
+                          '</ul>' +
+                          '<ul>' +
+                            '<li>' + '<span>' + "pressure_max: " + '</span>' + data.values.pressure_max + '</li>'+
+                            '<li>' + '<span>' + "pressure_min: " + '</span>' + data.values.pressure_min + '</li>'+
+                            '<li>' + '<span>' + "pressure_avg: " + '</span>' + data.values.pressure_avg.toFixed(2) + '</li>'+
+                          '</ul>' +
+                          '</div>');
+            infoWindow.open(map, marker);
+            }); // end of addListener
+          })(marker, data);
+        }; //end of for loop
+      }; //end of LoadMap function
+    }); //end of .get function
   </script>
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCReYIp7WAseEM_zZfqaL5WMgh8v1TAZho&callback=LoadMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCReYIp7WAseEM_zZfqaL5WMgh8v1TAZho">
   </script>
 {% endblock %}

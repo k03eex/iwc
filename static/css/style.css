@@ -195,6 +195,28 @@ PAGE: HOME
   height: 400px;
 }
 
+#map_infowindow{
+  min-width: 300px;
+  min-height: 80px;
+}
+
+#map_infowindow h3{
+  font-family: font-family: 'Nunito', sans-serif;
+  color: #599a68
+}
+
+#map_infowindow li{
+    display: inline-block;
+    margin-right: 8px;
+}
+#map_infowindow ul{
+    margin-bottom: 8px;
+}
+
+#map_infowindow li span{
+  font-weight: bold;
+  font-style: italic;
+}
 /**************************************************************************
 PAGE: ABOUT
 ***************************************************************************/

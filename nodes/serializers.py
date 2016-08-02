@@ -16,21 +16,37 @@ class SensorSerializer(serializers.ModelSerializer):
       'id',
       'node_id',
       'timestamp',
-      'aci',
+      'sensor_created',
       'temperature',
       'humidity',
-      'light',
-      'pressure'
+      'pressure',
+      'light_red',
+      'light_green',
+      'light_blue'
     )
     model = models.Sensor
+
+class ACISerializer(serializers.ModelSerializer):
+  #aci = serializers.ListField(child=serializers.FloatField(min_value=0, max_value=100))
+  class Meta:
+    fields = (
+      'id',
+      'node_id',
+      'timestamp',
+      'aci_created',
+      'aci',
+    )
+    model = models.ACI
 
 class NodeGPSSerializer(serializers.ModelSerializer):
   class Meta:
     fields = (
       'id',
       'node_id',
+      'timestamp',
+      'gps_created',
       'gps_latitude',
-      'gps_longitude',
+      'gps_longitude'
     )
     model = models.NodeGPS
 
@@ -39,6 +55,17 @@ class NodeConfigSerializer(serializers.ModelSerializer):
     fields = (
       'id',
       'node_id',
-      'node_configuration',
+      'timestamp',
+      'node_configuration'
     )
     model = models.NodeConfig
+
+class NodeMemorySerializer(serializers.ModelSerializer):
+  class Meta:
+    fields = (
+      'id',
+      'node_id',
+      'memory_total',
+      'memory_free'
+    )
+    model = models.NodeMemory

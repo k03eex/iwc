@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^about/$', views.about, name='about'),
     url(r'^home/$', views.home, name='home'),
     url(r'^nodes/', include('nodes.urls', namespace='nodes')),
+    url(r'^nodes/gps_json/$', views.get_gps_json, name='gps_json'),
     url(r'^api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
     url(r'^api/v1/nodes/', include('nodes.url_api', namespace='nodes_api')),

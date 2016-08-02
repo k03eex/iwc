@@ -2,18 +2,19 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import django.contrib.postgres.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('nodes', '0003_auto_20160720_2306'),
+        ('nodes', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='node',
-            name='node_id',
-            field=models.CharField(max_length=255),
+            model_name='aci',
+            name='aci',
+            field=django.contrib.postgres.fields.ArrayField(size=None, base_field=models.FloatField()),
         ),
     ]

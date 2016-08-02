@@ -1,8 +1,5 @@
-dj-database-url==0.4.1
 Django==1.8.13
 django-extensions==1.6.7
 djangorestframework==3.4.0
-gunicorn==19.6.0
 psycopg2==2.6.2
 six==1.10.0
-whitenoise==3.2
