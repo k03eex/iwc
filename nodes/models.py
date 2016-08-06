@@ -11,7 +11,7 @@ class Node(models.Model):
 class Sensor(models.Model):
     node_id = models.ForeignKey(Node)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    sensor_created = models.DateTimeField()
+    sensor_created = models.DateTimeField(null=True, blank=True)
     temperature = models.FloatField(null=True, blank=True)
     humidity = models.FloatField(null=True, blank=True)
     pressure = models.FloatField(null=True, blank=True)
@@ -23,16 +23,19 @@ class Sensor(models.Model):
 class ACI(models.Model):
     node_id = models.ForeignKey(Node)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    aci_created = models.DateTimeField()
+    aci_created = models.DateTimeField(null=True, blank=True)
     aci = ArrayField(models.FloatField())
 
 
 class NodeGPS(models.Model):
     node_id = models.ForeignKey(Node)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
-    gps_created = models.DateTimeField()
+    gps_created = models.DateTimeField(null=True, blank=True)
     gps_latitude = models.FloatField(null=True, blank=True)
     gps_longitude = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ['node_id', 'gps_latitude', 'gps_longitude']
     #gps_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
 
@@ -46,5 +49,6 @@ class NodeConfig(models.Model):
 class NodeMemory(models.Model):
     node_id = models.ForeignKey(Node)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    memory_created = models.DateTimeField(null=True, blank=True)
     memory_total = models.FloatField(null=True, blank=True)
     memory_free = models.FloatField(null=True, blank=True)

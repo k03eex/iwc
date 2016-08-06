@@ -2,5 +2,5 @@
 /static_root
 db.sqlite3
 fixtures.json
-__pycache__
+/migrations
 settings_local.py

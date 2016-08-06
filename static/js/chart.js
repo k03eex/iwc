@@ -94,17 +94,17 @@ function buildchart(node_id){
 
     var temperature_min = Math.min.apply(null, temperature_only);
     var temperature_max = Math.max.apply(null, temperature_only);
-    var temperature_avg = temperature_avg/count;
+    var temperature_avg = (temperature_avg/count)toFixed(3);
     build_values('#temp_values', 'tempHTML', temperature_min, temperature_max, temperature_avg)
 
     var humidity_min = Math.min.apply(null, humidity_only);
     var humidity_max = Math.max.apply(null, humidity_only);
-    var humidity_avg = humidity_avg/count;
+    var humidity_avg = (humidity_avg/count)toFixed(3);
     build_values('#humidity_values', 'humidityHTML', humidity_min, humidity_max, humidity_avg)
 
     var pressure_min = Math.min.apply(null, pressure_only);
     var pressure_max = Math.max.apply(null, pressure_only);
-    var pressure_avg = pressure_avg/count;
+    var pressure_avg = (pressure_avg/count)toFixed(3);
     build_values('#pressure_values', 'pressureHTML', pressure_min, pressure_max, pressure_avg)
 
     build_highchart('#container_temp', 'Temperature', 'Temperature (°C)', 'Temperature', temperature)

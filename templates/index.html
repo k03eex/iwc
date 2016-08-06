@@ -78,7 +78,6 @@
                //Attach click event to the marker.
           (function (marker, data) {
             google.maps.event.addListener(marker, "click", function () {
-                 //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
             infoWindow.setContent('<div id="map_infowindow">' +
                           '<h3>' + data.title + '</h3>' +
                           '<ul>' +
