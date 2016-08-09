@@ -3,12 +3,14 @@ from django.contrib.postgres.fields import ArrayField
 
 
 class Node(models.Model):
+    '''Table contains nodes, it will be used as ForeignKey for other tables'''
     node_id = models.CharField(max_length=255)
 
     def __str__(self):
         return self.node_id
 
 class Sensor(models.Model):
+    '''Database table for sensor parameters'''
     node_id = models.ForeignKey(Node)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     sensor_created = models.DateTimeField(null=True, blank=True)

@@ -17,6 +17,15 @@
         The topology of the project is given in below diagram.
       </p>
       <div id = "topology"><img src = "{% static 'images/general/topology.jpg' %}" alt="topology"></div>
+      <div id = "nodes_memory">
+        <h3>Memory usage</h3>
+        <ul>
+          <li class="node1_memory_pie"></li>
+          <li class="node2_memory_pie"></li>
+          <li class="node3_memory_pie"></li>
+          <li class="node4_memory_pie"></li>
+        </ul>
+      </div>
       <p class="text">
       Google Map shows locations of each node. Click on the node to see the latest value of each sensor!
       </p>
@@ -26,6 +35,58 @@
 {% endblock %}
 {% block extrajs %}
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script>
+  function memory_chart(node_id, selector, title){
+    $.getJSON('http://0.0.0.0:8000/api/v1/nodes/' + node_id + '/memory/', function (data) {
+        var free = data[data.length - 1].memory_free;
+        var used = data[data.length - 1].memory_total - free;
+        $(selector).highcharts({
+               chart: {
+                   plotBackgroundColor: null,
+                   plotBorderWidth: null,
+                   plotShadow: false,
+                   type: 'pie'
+               },
+               title: {
+                   text: title
+               },
+               tooltip: {
+                   pointFormat: '{series.name}: <b>{point.y}</b>',
+                   valueSuffix: ' bytes'
+               },
+               plotOptions: {
+                   pie: {
+                       allowPointSelect: true,
+                       cursor: 'pointer',
+                       dataLabels: {
+                           enabled: false
+                       },
+                       showInLegend: true
+                   }
+               },
+               series: [{
+                   name: 'memory',
+                   colorByPoint: true,
+                   data: [{
+                       name: 'Free',
+                       y: free
+                   }, {
+                       name: 'Used',
+                       y: used,
+                       sliced: true,
+                       selected: true
+                   }]
+               }]
+         }); //end of container
+    }); // end of getJSON for memory
+  }; // end memory chart function
+  memory_chart(1, '.node1_memory_pie', 'Node1')
+  memory_chart(2, '.node2_memory_pie', 'Node2')
+  memory_chart(3, '.node3_memory_pie', 'Node3')
+  memory_chart(4, '.node4_memory_pie', 'Node4')
+  </script>
   <script>
   //source: http://www.aspsnippets.com/Articles/Google-Maps-API-V3-Add-multiple-markers-with-InfoWindow-to-Google-Map.aspx
     $.get("/nodes/gps_json/", function( data ) {

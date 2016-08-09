@@ -6,6 +6,12 @@
   <section>
     <h3 class="node_header"> {{ node }} </h3>
 
+    <button id="modal_button">Show RGB values</button>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+      </div>
+    </div>
+    
     <p class="sensor_header">ACI</p>
     <div id="aci_values" class="sensor_values"></div>
     <div id="container_aci" class="chart_container"></div>
@@ -21,10 +27,6 @@
     <p class="sensor_header">Air Pressure</p>
     <div id="pressure_values" class="sensor_values"></div>
     <div id="container_pressure" class="chart_container"></div>
-
-    <p class="sensor_header">Light</p>
-    <div id="light_values" class="sensor_values"></div>
-    <div id="container_light" class="chart_container"></div>
   </section>
 </div>
 {% endblock %}

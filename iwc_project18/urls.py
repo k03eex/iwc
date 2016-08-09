@@ -12,20 +12,19 @@ Class-based views
 Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+#import necessary modules to work with URLs and admin panel
 from django.conf.urls import include, url
 from django.contrib import admin
-
-
+#import views to associate with urls
 from . import views
-
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^about/$', views.about, name='about'),
-    url(r'^home/$', views.home, name='home'),
-    url(r'^nodes/', include('nodes.urls', namespace='nodes')),
-    url(r'^nodes/gps_json/$', views.get_gps_json, name='gps_json'),
+    url(r'^$', views.home, name='home'), #the main page
+    url(r'^admin/', include(admin.site.urls)), #redirect to built-in admin panel
+    url(r'^about/$', views.about, name='about'), #about page
+    url(r'^home/$', views.home, name='home'), #home page
+    url(r'^nodes/', include('nodes.urls', namespace='nodes')), #redirect to app url
+    url(r'^nodes/gps_json/$', views.get_gps_json, name='gps_json'), #get GPS json data
     url(r'^api-auth/', include('rest_framework.urls',
-                              namespace='rest_framework')),
-    url(r'^api/v1/nodes/', include('nodes.url_api', namespace='nodes_api')),
+                              namespace='rest_framework')), #redirect to rest_framework auth
+    url(r'^api/v1/nodes/', include('nodes.url_api', namespace='nodes_api')), #redirect to app API url
 ]

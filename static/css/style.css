@@ -217,6 +217,17 @@ PAGE: HOME
   font-weight: bold;
   font-style: italic;
 }
+
+#nodes_memory{
+  text-align: center;
+  margin: 60px 0 60px 0;
+}
+
+#nodes_memory li{
+    display: inline-block;
+    width: 220px;
+    height: 220px;
+}
 /**************************************************************************
 PAGE: ABOUT
 ***************************************************************************/
@@ -333,7 +344,7 @@ textarea{
   box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 }
 
-button {
+.button {
   cursor: pointer;
   position: relative;
   left: 880px;
@@ -380,4 +391,62 @@ PAGE NODE GRAPHS
 
 span .li_bold{
   font-weight: bold;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.rgb_table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.rgb_table th{
+  font-weight: bold;
+}
+.rgb_table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+
+}
+
+.rgb_table tr:nth-child(even) {
+    background-color: #dddddd;
 }

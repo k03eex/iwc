@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
+    'rest_framework.authtoken',
     'nodes',
 )
 
@@ -115,12 +116,12 @@ STATICFILES_DIRS = (
 
 #REST Framework
 REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': [],
-  #(
-#    'rest_framework.authentication.SessionAuthentication',
-  #),
-  'DEFAULT_PERMISSION_CLASSES': []
-  #(
-    #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
- # )
+  'DEFAULT_AUTHENTICATION_CLASSES': #[],
+  (
+    'rest_framework.authentication.TokenAuthentication',
+  ),
+  'DEFAULT_PERMISSION_CLASSES':
+  (
+    'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+  )
 }
