@@ -1,3 +1,4 @@
+'''
 from django import forms
 
 from . import models
@@ -13,8 +14,9 @@ class NodeConfigForm(forms.ModelForm):
                 'node_id': 'Choose node',
                 'node_configuration': 'Enter Configuration'
         }
-        '''
+
         help_texts = {
            'node_configuration': 'Enter here configuration!',
        }
-       '''
+
+'''

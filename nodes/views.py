@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.forms.models import model_to_dict
 
 from rest_framework import generics
 
@@ -14,7 +15,7 @@ from . import models
 def node_detail(request, node_pk):
     node = "Node" + str(node_pk)
     return render(request, "nodes/node_detail.html", {'node': node, 'node_id': node_pk})
-
+'''
 @login_required
 def node_config(request):
     form = forms.NodeConfigForm
@@ -26,7 +27,7 @@ def node_config(request):
             return HttpResponseRedirect(reverse('nodes:config'))
     return render(request, 'nodes/nodeconfig.html', {'form': form})
 
-
+'''
 ###############################################################################
 ############################-------API------###################################
 ###############################################################################
@@ -72,6 +73,7 @@ class RetrieveUpdateDestroySensor(generics.RetrieveUpdateDestroyAPIView):
             node_id=self.kwargs.get('node_pk'),
             pk=self.kwargs.get('pk')
         )
+
 #############################ACI################################################
 
 class ListCreateACIs(generics.ListCreateAPIView):
@@ -105,19 +107,20 @@ class RetrieveUpdateDestroyACI(generics.RetrieveUpdateDestroyAPIView):
             node_id=self.kwargs.get('node_pk'),
             pk=self.kwargs.get('pk')
         )
-##############################GPS###############################################
 
-class ListCreateNodesGPS(generics.ListCreateAPIView):
-    queryset = models.NodeGPS.objects.all()
-    serializer_class = serializers.NodeGPSSerializer
+##############################MEMORY-GPS###############################################
 
-class RetrieveUpdateDestroyNodesGPS(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.NodeGPS.objects.all()
-    serializer_class = serializers.NodeGPSSerializer
+class ListCreateNodesMemoryGPS(generics.ListCreateAPIView):
+    queryset = models.NodeMemoryGPS.objects.all()
+    serializer_class = serializers.NodeMemoryGPSSerializer
 
-class ListCreateNodeGPS(generics.ListCreateAPIView):
-    queryset = models.NodeGPS.objects.all()
-    serializer_class = serializers.NodeGPSSerializer
+class RetrieveUpdateDestroyNodesMemoryGPS(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.NodeMemoryGPS.objects.all()
+    serializer_class = serializers.NodeMemoryGPSSerializer
+
+class ListCreateNodeMemoryGPS(generics.ListCreateAPIView):
+    queryset = models.NodeMemoryGPS.objects.all()
+    serializer_class = serializers.NodeMemoryGPSSerializer
 
     def get_queryset(self):
         return self.queryset.filter(node_id=self.kwargs.get('node_pk')).order_by('timestamp')
@@ -127,9 +130,9 @@ class ListCreateNodeGPS(generics.ListCreateAPIView):
             models.Node, pk=self.kwargs.get('node_pk'))
         serializer.save(node_id=node)
 
-class RetrieveUpdateDestroyNodeGPS(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.NodeGPS.objects.all()
-    serializer_class = serializers.NodeGPSSerializer
+class RetrieveUpdateDestroyNodeMemoryGPS(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.NodeMemoryGPS.objects.all()
+    serializer_class = serializers.NodeMemoryGPSSerializer
 
     def get_object(self):
         return get_object_or_404(
@@ -137,6 +140,7 @@ class RetrieveUpdateDestroyNodeGPS(generics.RetrieveUpdateDestroyAPIView):
             node_id=self.kwargs.get('node_pk'),
             pk=self.kwargs.get('pk')
         )
+
 ############################Config##############################################
 
 class ListCreateNodesConfig(generics.ListCreateAPIView):
@@ -150,11 +154,10 @@ class RetrieveUpdateDestroyNodesConfig(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ListCreateNodeConfig(generics.ListCreateAPIView):
-    queryset = models.NodeConfig.objects.all()
     serializer_class = serializers.NodeConfigSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(node_id=self.kwargs.get('node_pk')).order_by('timestamp')
+        return models.NodeConfig.objects.filter(node_id=self.kwargs.get('node_pk')).order_by('timestamp')
 
     def perform_create(self, serializer):
         node = get_object_or_404(
@@ -172,36 +175,9 @@ class RetrieveUpdateDestroyNodeConfig(generics.RetrieveUpdateDestroyAPIView):
             pk=self.kwargs.get('pk')
         )
 
-#############################MEMORY###########################################
-class ListCreateNodesMemory(generics.ListCreateAPIView):
-    queryset = models.NodeMemory.objects.all()
-    serializer_class = serializers.NodeMemorySerializer
+class RetrieveNodeConfig(generics.RetrieveAPIView):
+    queryset = models.NodeConfig.objects.all()
+    serializer_class = serializers.NodeConfigSerializer
 
-
-class RetrieveUpdateDestroyNodesMemory(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.NodeMemory.objects.all()
-    serializer_class = serializers.NodeMemorySerializer
-
-
-class ListCreateNodeMemory(generics.ListCreateAPIView):
-    queryset = models.NodeMemory.objects.all()
-    serializer_class = serializers.NodeMemorySerializer
-
-    def get_queryset(self):
-        return self.queryset.filter(node_id=self.kwargs.get('node_pk')).order_by('timestamp')
-
-    def perform_create(self, serializer):
-        node = get_object_or_404(
-            models.Node, pk=self.kwargs.get('node_pk'))
-        serializer.save(node_id=node)
-
-class RetrieveUpdateDestroyNodeMemory(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.NodeMemory.objects.all()
-    serializer_class = serializers.NodeMemorySerializer
-
-    def get_object(self):
-        return get_object_or_404(
-            self.get_queryset(),
-            node_id=self.kwargs.get('node_pk'),
-            pk=self.kwargs.get('pk')
-        )
+    def get_object(self, *args, **kwargs):
+        return self.get_queryset().filter(node_id=self.kwargs.get('node_pk')).latest('timestamp')

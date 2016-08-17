@@ -17,7 +17,7 @@ def home(request):
 def get_gps_json(request):
     '''function responses to AJAX request in JSON format'''
     jresponse = [] #initialize the variable
-    nodes_gps = models.NodeGPS.objects.all() #get all objects from NodeGPS table
+    nodes_gps = models.NodeMemoryGPS.objects.all() #get all objects from NodeGPS table
 
     def get_values_dict(node_sensors):
         '''get dictionary based data for each node sensor'''

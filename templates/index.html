@@ -39,7 +39,7 @@
   <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
   <script>
   function memory_chart(node_id, selector, title){
-    $.getJSON('http://0.0.0.0:8000/api/v1/nodes/' + node_id + '/memory/', function (data) {
+    $.getJSON('http://0.0.0.0:8000/api/v1/nodes/' + node_id + '/memory-gps/', function (data) {
         var free = data[data.length - 1].memory_free;
         var used = data[data.length - 1].memory_total - free;
         $(selector).highcharts({

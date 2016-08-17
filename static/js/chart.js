@@ -42,16 +42,38 @@ function buildchart(node_id){
     });
   }; //end of build_highchart function
 
+  function build_rgb_chart(light_red, light_green, light_blue){
+    var seriesOptions = [{"name": "Red", "color": "red", "data": light_red},
+                         {"name": "Green", "color": "green", "data": light_green},
+                         {"name": "Blue", "color": "blue", "data": light_blue}];
+        $('#container_rgb').highcharts('StockChart', {
+            chart: {zoomType: 'x'},
+
+            rangeSelector: {
+              allButtonsEnabled: true,
+              selected: 1
+            },
+            yAxis: {
+                plotLines: [{
+
+                    width: 1,
+                    color: 'silver'
+                }]
+            },
+            tooltip: {
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+                valueDecimals: 2
+            },
+            series: seriesOptions
+        }); //end of  container_rgb highcharts
+  };// end of build_rgb_chart function
+
   function show_rgb(light_colors){
     /*Build modal box for rgb values*/
     // Get the modal
     var modal = document.getElementById('myModal');
     // Get the button that opens the modal
     var btn = document.getElementById("modal_button");
-    // Get the <span> element that closes the modal
-    //$('.modal-content').html('<span class="close">x</span>')
-    //var span = document.getElementsByClassName("close")[0];
-    // When the user clicks the button, open the modal
     btn.onclick = function() {
       modal.style.display = "block";
       console.log(light_colors)
@@ -70,10 +92,7 @@ function buildchart(node_id){
       sensorHTML += '</table>'
       $('.modal-content').html(sensorHTML)
     }
-    // When the user clicks on <span> (x), close the modal
-    /*span.onclick = function() {
-        modal.style.display = "none";
-    }*/
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -89,10 +108,14 @@ function buildchart(node_id){
     var count = 0;
 
     for (var i = 0; i < data.length; i++){
-      new_date = Date.parse(data[i].timestamp)
-      aci_avg += data[i].aci
-      aci_only.push(data[i].aci)
-      aci.push([new_date, data[i].aci])
+      var second_inc = new Date(data[i].timestamp)
+      for (var j = 0; j < data[i].aci.length; j++){
+        aci_avg += data[i].aci[j]
+        aci_only.push(data[i].aci[j])
+        aci.push([Date.parse(second_inc), data[i].aci[j]])
+        second_inc.setSeconds(second_inc.getSeconds() + 1)
+        count += 1;
+      }
       count += 1;
     }; // loop end
 
@@ -115,6 +138,9 @@ function buildchart(node_id){
     var pressure = [];
     var pressure_only = [];
     var pressure_avg = 0;
+    var light_red = [];
+    var light_green = [];
+    var light_blue = [];
     var light_colors = [];
     var count = 0;
 
@@ -132,6 +158,10 @@ function buildchart(node_id){
       pressure_avg += data[i].pressure
       pressure_only.push(data[i].pressure)
       pressure.push([new_date, data[i].pressure])
+
+      light_red.push([new_date, data[i].light_red])
+      light_green.push([new_date, data[i].light_green])
+      light_blue.push([new_date, data[i].light_blue])
 
       var light_rgb = [data[i].light_red, data[i].light_green, data[i].light_blue]
       light_colors.push([data[i].timestamp, light_rgb])
@@ -157,6 +187,7 @@ function buildchart(node_id){
     build_highchart('#container_temp', 'Temperature', 'Temperature (°C)', 'Temperature', temperature)
     build_highchart('#container_humidity', 'Humidity', 'Humidity', 'Humidity', humidity)
     build_highchart('#container_pressure', 'Air Pressure', 'Air Pressure', 'Air Pressure', pressure)
+    build_rgb_chart(light_red, light_green, light_blue);
     show_rgb(light_colors);
   }); //end of getJSON for sensors
 }; //end of main function

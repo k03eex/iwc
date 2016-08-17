@@ -1,4 +1,5 @@
 from rest_framework import serializers
+#from drf_compound_fields.fields import ListField
 
 from . import models
 
@@ -27,7 +28,11 @@ class SensorSerializer(serializers.ModelSerializer):
     model = models.Sensor
 
 class ACISerializer(serializers.ModelSerializer):
-  #aci = serializers.ListField(child=serializers.FloatField(min_value=0, max_value=100))
+
+  #aci = serializers.ListField(child=serializers.IntegerField())
+  #aci_char = serializers.ListField(child=serializers.CharField(max_length=255))
+  #test = serializers.ListField(child=serializers.CharField(max_length=255))
+
   class Meta:
     fields = (
       'id',
@@ -38,34 +43,33 @@ class ACISerializer(serializers.ModelSerializer):
     )
     model = models.ACI
 
-class NodeGPSSerializer(serializers.ModelSerializer):
+class NodeMemoryGPSSerializer(serializers.ModelSerializer):
   class Meta:
     fields = (
       'id',
       'node_id',
       'timestamp',
-      'gps_created',
+      'mem_gps_created',
       'gps_latitude',
-      'gps_longitude'
-    )
-    model = models.NodeGPS
-
-class NodeConfigSerializer(serializers.ModelSerializer):
-  class Meta:
-    fields = (
-      'id',
-      'node_id',
-      'timestamp',
-      'node_configuration'
-    )
-    model = models.NodeConfig
-
-class NodeMemorySerializer(serializers.ModelSerializer):
-  class Meta:
-    fields = (
-      'id',
-      'node_id',
+      'gps_longitude',
       'memory_total',
       'memory_free'
     )
-    model = models.NodeMemory
+    model = models.NodeMemoryGPS
+
+class NodeConfigSerializer(serializers.ModelSerializer):
+  lower_frequency = serializers.IntegerField(min_value=1, max_value=256, default=0, help_text="Please, enter between 1 and 256")
+  upper_frequency = serializers.IntegerField(min_value=1, max_value=256, default=0, help_text="Please, enter between 1 and 256")
+  class Meta:
+    fields = (
+      'id',
+      'node_id',
+      'timestamp',
+      'record_time',
+      'record_interval',
+      'lower_frequency',
+      'upper_frequency',
+      'window',
+      'measurement_interval',
+    )
+    model = models.NodeConfig
